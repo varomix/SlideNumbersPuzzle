@@ -21,6 +21,11 @@ class PlayState extends FlxState
 	private var blankSquare:Square;
 	private var boardGrp:FlxSpriteGroup;
 	var order:Array<Int> = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+
+	var xOffset = 17;
+	var yOffset = 15;
+	var tileSize = 128;
+
 	/**
 	 * Function that is called up when to state is created to set it up. 
 	 */
@@ -87,9 +92,11 @@ class PlayState extends FlxState
 	    }
 
 	    // add the blank square
-	    blankSquare = new Square(384, 384, "");
+	    blankSquare = new Square(384, 384, "0");
 	    blankSquare.ID = 0;
-	    blankSquare.alpha = 0.1;
+	    // blankSquare.alpha = 0.1;
+		blankSquare.visible = false;
+
 	    boardGrp.add(blankSquare);
 
 	    // finally add the board to the stage
@@ -251,7 +258,48 @@ class PlayState extends FlxState
 
 	public function checkWin(_)
 	{
-		trace("checking if you won");
+		var winOrder_pattern01:String = "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0,";
+		var currentOrder:String = "";  //so we don't get null, initialize it
+
+		var col:Int = 0;
+		var row:Int = 0;
+		for (i in 0 ... 16)
+	    {
+	    	var btn:FlxButton;
+	    	// var btn:FlxButton = cast (boardGrp.members[i], FlxButton);
+
+
+	    	btn = getTile(col,row);
+	    	currentOrder += btn.label.text + ",";
+
+	    	col++;
+	    	if(col >= 4)
+	    	{
+	    		col = 0;
+	    		row++;
+	    	}
+	    }
+
+	    trace("current order: " + currentOrder + "  win pattern: " + winOrder_pattern01);
+	    if(currentOrder == winOrder_pattern01)
+	    {
+	    	trace("Pattern one you WIN!!");
+	    }
+	}
+
+	public function getTile(X:Int, Y:Int):FlxButton
+	{
+		var btn:FlxButton;
+		for (i in 0 ... boardGrp.length)
+		{
+			btn = cast (boardGrp.members[i], FlxButton);
+
+			if(btn.x == (X  * 128) + xOffset && btn.y == (Y * 128) + yOffset )
+			{
+				return btn;
+			}
+		}
+		return btn;
 	}
 
 	/**
