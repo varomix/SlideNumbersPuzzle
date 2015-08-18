@@ -8,6 +8,7 @@ import flixel.ui.FlxButton;
 import flixel.util.FlxMath;
 import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxColor;
+import flixel.tweens.FlxTween;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -41,7 +42,7 @@ class PlayState extends FlxState
 
 		// shuffle the numbers
 		shuffleArray(order);
-		
+
 		// create the board
 		createBoard();
 
@@ -67,7 +68,13 @@ class PlayState extends FlxState
 	    for (i in 0 ... 15)
 	    {
 	    	square = new Square(col * 128, row * 128, "" + order[i]);
-	    	// add(square);
+
+	    	// add color to odd numbers
+	    	if(Std.parseInt(square.label.text) % 2 == 1)
+	    	{
+	    		square.color = FlxColor.GOLDEN;
+	    	}
+
 	    	boardGrp.add(square);
 
 
@@ -80,12 +87,171 @@ class PlayState extends FlxState
 	    }
 
 	    // add the blank square
-	    blankSquare = new Square(384, 384, "0");
+	    blankSquare = new Square(384, 384, "");
 	    blankSquare.ID = 0;
+	    blankSquare.alpha = 0.1;
 	    boardGrp.add(blankSquare);
 
 	    // finally add the board to the stage
 	    add(boardGrp);
+
+	}
+
+	public function moveNumbers(btn:FlxButton):Void
+	{
+		// store original coordinates
+		var posX = btn.x;
+		var posY = btn.y;
+
+		var up = false;
+		var right = false;
+		var down = false;
+		var left = false;
+
+		// move the button to find the open spot
+
+		var col:Int = 0;
+		var row:Int = 0;
+		
+		// move UP
+		btn.y += -20;
+		// check if we're overlaping with the button with ID = 0
+	    for (i in 0 ... boardGrp.length)
+	    {
+	    	var other:FlxButton = cast (boardGrp.members[i], FlxButton);
+
+			if(FlxG.overlap(btn, other))
+			{
+				if (other.ID == 0)
+				{
+					up = true;
+				}
+			}
+
+	    	col++;
+	    	if(col >= 4)
+	    	{
+	    		col = 0;
+	    		row++;
+	    	}
+	    }
+	    // reset position
+	    btn.x = posX;
+	    btn.y = posY;
+
+	    // move DOWN
+		btn.y += 20;
+		// check if we're overlaping with the button with ID = 0
+	    for (i in 0 ... boardGrp.length)
+	    {
+	    	var other:FlxButton = cast (boardGrp.members[i], FlxButton);
+
+			if(FlxG.overlap(btn, other))
+			{
+				if (other.ID == 0)
+				{
+					down = true;
+				}
+			}
+
+	    	col++;
+	    	if(col >= 4)
+	    	{
+	    		col = 0;
+	    		row++;
+	    	}
+	    }
+	    // reset position
+	    btn.x = posX;
+	    btn.y = posY;
+
+	     // move LEFT
+		btn.x += -20;
+		// check if we're overlaping with the button with ID = 0
+	    for (i in 0 ... boardGrp.length)
+	    {
+	    	var other:FlxButton = cast (boardGrp.members[i], FlxButton);
+
+			if(FlxG.overlap(btn, other))
+			{
+				if (other.ID == 0)
+				{
+					left = true;
+				}
+			}
+
+	    	col++;
+	    	if(col >= 4)
+	    	{
+	    		col = 0;
+	    		row++;
+	    	}
+	    }
+	    // reset position
+	    btn.x = posX;
+	    btn.y = posY;
+
+	    var other:FlxButton;
+	     // move RIGHT
+		btn.x += 20;
+		// check if we're overlaping with the button with ID = 0
+	    for (i in 0 ... boardGrp.length)
+	    {
+	    	other = cast (boardGrp.members[i], FlxButton);
+
+			if(FlxG.overlap(btn, other))
+			{
+				if (other.ID == 0)
+				{
+					right = true;
+				}
+			}
+
+	    	col++;
+	    	if(col >= 4)
+	    	{
+	    		col = 0;
+	    		row++;
+	    	}
+	    }
+	    // reset position
+	    btn.x = posX;
+	    btn.y = posY;
+
+
+	    // trace("up: " + up );
+	    // trace("right: " + right );
+	    // trace("down: " + down );
+	    // trace("left: " + left );
+
+	    var speed = 0.15;
+
+	    /// NOW WE CAN MOVE THEM
+	    if(up)
+	    {
+	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x, btn.y - 128, speed, true, {complete:checkWin});
+	    	FlxTween.linearMotion(other, other.x, other.y, other.x, other.y + 128, speed, true);
+	    }
+	     if(down)
+	    {
+	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x, btn.y + 128, speed, true, {complete:checkWin});
+	    	FlxTween.linearMotion(other, other.x, other.y, other.x, other.y - 128, speed, true);
+	    }
+	     if(left)
+	    {
+	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x - 128, btn.y, speed, true, {complete:checkWin});
+	    	FlxTween.linearMotion(other, other.x, other.y, other.x + 128, other.y, speed, true);
+	    }
+	     if(right)
+	    {
+	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x + 128, btn.y, speed, true, {complete:checkWin});
+	    	FlxTween.linearMotion(other, other.x, other.y, other.x - 128, other.y, speed, true);
+	    }
+	}
+
+	public function checkWin(_)
+	{
+		trace("checking if you won");
 	}
 
 	/**
@@ -103,5 +269,20 @@ class PlayState extends FlxState
 	override public function update():Void
 	{
 		super.update();
+
+		// clicking on the buttons
+		if(FlxG.mouse.justPressed)
+		{
+			for (i in 0 ... boardGrp.length)
+			{
+				var btn:FlxButton = cast (boardGrp.members[i], FlxButton);
+
+				if (btn.status == FlxButton.PRESSED)
+				{
+					moveNumbers(btn);
+				}
+
+			}
+		}
 	}	
 }
