@@ -9,6 +9,7 @@ import flixel.util.FlxMath;
 import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
+import flixel.util.FlxSave;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -22,6 +23,15 @@ class PlayState extends FlxState
 	private var boardGrp:FlxSpriteGroup;
 	var order:Array<Int> = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
 
+	// we'll use this to save the high score
+	public var _saveGame:FlxSave;
+
+	public var numMoves:Int = 0;
+	var movesTxt:FlxText;
+
+	var highScoreTxt:FlxText;
+	var highScoreInt:Int = 0;
+
 	var xOffset = 17;
 	var yOffset = 15;
 	var tileSize = 128;
@@ -32,6 +42,9 @@ class PlayState extends FlxState
 	override public function create():Void
 	{
 		super.create();
+		
+		_saveGame = new FlxSave();
+		_saveGame.bind("gameSaveData");
 
 		// create board group
 		boardGrp = new FlxSpriteGroup(17, 15);
@@ -41,9 +54,24 @@ class PlayState extends FlxState
 		bg.loadGraphic("assets/images/bg.jpg");
 		add(bg);
 
-		var title = new FlxText(0, 550, FlxG.width, "Slide Numbers Puzzle", 30);
-		title.setFormat("assets/data/LuckiestGuy.ttf", 45, FlxColor.BLACK, "center", FlxText.BORDER_SHADOW, FlxColor.WHITE, true);
+		var title = new FlxText(0, 605, FlxG.width, "Slide Numbers Puzzle", 30);
+		title.setFormat("assets/data/LuckiestGuy.ttf", 34, FlxColor.BLACK, "center", FlxText.BORDER_SHADOW, FlxColor.WHITE, true);
 		add(title);
+
+		movesTxt = new FlxText(30, 550, FlxG.width, "Moves: " + numMoves, 30);
+		movesTxt.setFormat("assets/data/LuckiestGuy.ttf", 30, FlxColor.BLACK, "left", FlxText.BORDER_SHADOW, FlxColor.WHITE, true);
+		add(movesTxt);
+
+		// get the previous high Score if exists
+		if(_saveGame.data.highscore != null)
+		{
+			highScoreInt = _saveGame.data.highscore;
+		}
+
+		highScoreTxt = new FlxText(280, 550, FlxG.width, "Hi Score: " + highScoreInt, 30);
+		highScoreTxt.setFormat("assets/data/LuckiestGuy.ttf", 30, FlxColor.BLACK, "left", FlxText.BORDER_SHADOW, FlxColor.WHITE, true);
+		add(highScoreTxt);
+
 
 		// shuffle the numbers
 		shuffleArray(order);
@@ -51,6 +79,18 @@ class PlayState extends FlxState
 		// create the board
 		createBoard();
 
+		var options = new FlxButton(490, 605, "", options);
+		options.loadGraphic("assets/images/settings.png");
+		add(options);
+
+		openSubState(new Instructions());
+
+
+	}
+
+	public function options():Void
+	{
+		openSubState( new Options() );
 	}
 
 	public function shuffleArray(arr:Array<Int>)
@@ -67,6 +107,7 @@ class PlayState extends FlxState
 
 	public function createBoard():Void
 	{
+
 		var col:Int = 0;
 		var row:Int = 0;
 
@@ -266,8 +307,6 @@ class PlayState extends FlxState
 		for (i in 0 ... 16)
 	    {
 	    	var btn:FlxButton;
-	    	// var btn:FlxButton = cast (boardGrp.members[i], FlxButton);
-
 
 	    	btn = getTile(col,row);
 	    	currentOrder += btn.label.text + ",";
@@ -284,6 +323,25 @@ class PlayState extends FlxState
 	    if(currentOrder == winOrder_pattern01)
 	    {
 	    	trace("Pattern one you WIN!!");
+	    	// show win substate
+
+	    	// check for the high score 
+
+	    	if(numMoves < Std.parseInt(_saveGame.data.highscore) || highScoreInt == 0)
+	    	{
+	    		highScoreInt = numMoves;
+	    		trace(" new HIGH SCORE ");
+	    		_saveGame.data.highscore = numMoves;
+	    		_saveGame.flush(); // save the data
+	    	}
+	    }
+	    else
+	    {
+	    	// if we didn't win add one to the moves count
+			numMoves++;
+			// and update the moves text
+			movesTxt.text = "Moves: " + numMoves;
+
 	    }
 	}
 
