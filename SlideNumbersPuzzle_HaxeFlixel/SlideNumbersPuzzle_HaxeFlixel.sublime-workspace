@@ -4,86 +4,6 @@
 		"selected_items":
 		[
 			[
-				"Sw",
-				"switchState(...)	Void"
-			],
-			[
-				"re",
-				"removeChild(...)	removeChild.T"
-			],
-			[
-				"for",
-				"for	for"
-			],
-			[
-				"l",
-				"length	Int"
-			],
-			[
-				"cr",
-				"createBoard(  )	Void"
-			],
-			[
-				"shuff",
-				"shuffleBtn"
-			],
-			[
-				"sw",
-				"switchState(...)	Void"
-			],
-			[
-				"hih",
-				"highScoreInt	Int"
-			],
-			[
-				"high",
-				"highScoreInt	Int"
-			],
-			[
-				"hi",
-				"highscore"
-			],
-			[
-				"le",
-				"left"
-			],
-			[
-				"B",
-				"BORDER_OUTLINE	Int"
-			],
-			[
-				"bo",
-				"borderSize	Float"
-			],
-			[
-				"GO",
-				"GOLDENROD	Int"
-			],
-			[
-				"in",
-				"Instructions	class"
-			],
-			[
-				"open",
-				"openSubState(...)	Void"
-			],
-			[
-				"clo",
-				"closeBtn"
-			],
-			[
-				"Flxspr",
-				"FlxSpriteUtil	flixel.util"
-			],
-			[
-				"flxCo",
-				"FlxColor	flixel.util"
-			],
-			[
-				"sub",
-				"FlxSubState	flixel"
-			],
-			[
 				"c",
 				"color	Int"
 			],
@@ -106,6 +26,10 @@
 			[
 				"blan",
 				"blankSquare"
+			],
+			[
+				"flxCo",
+				"FlxColor	class"
 			],
 			[
 				"board",
@@ -144,6 +68,10 @@
 				"height	Float"
 			],
 			[
+				"for",
+				"setFormat(...)	flixel.text.FlxText"
+			],
+			[
 				"sua",
 				"square	flixel.ui.FlxButton"
 			],
@@ -168,10 +96,34 @@
 	"buffers":
 	[
 		{
+			"file": "source/Main.hx",
+			"settings":
+			{
+				"buffer_size": 1955,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Project.xml",
+			"settings":
+			{
+				"buffer_size": 3181,
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "source/PlayState.hx",
 			"settings":
 			{
-				"buffer_size": 8444,
+				"buffer_size": 8480,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "source/Instructions.hx",
+			"settings":
+			{
+				"buffer_size": 1469,
 				"line_ending": "Windows"
 			}
 		},
@@ -179,15 +131,7 @@
 			"file": "source/Options.hx",
 			"settings":
 			{
-				"buffer_size": 1130,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "source/Main.hx",
-			"settings":
-			{
-				"buffer_size": 1955,
+				"buffer_size": 1124,
 				"line_ending": "Windows"
 			}
 		},
@@ -207,10 +151,14 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 138.0,
-		"last_filter": "insta",
+		"height": 219.0,
+		"last_filter": "haxel",
 		"selected_items":
 		[
+			[
+				"haxel",
+				"Haxelib: Install library"
+			],
 			[
 				"insta",
 				"Package Control: Install Package"
@@ -220,7 +168,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 449.0
+		"width": 400.0
 	},
 	"console":
 	{
@@ -241,16 +189,14 @@
 	},
 	"expanded_folders":
 	[
-		"/home/varomix/PROJECTx/HAXE_PROJx/SlideNumbersPuzzle/SlideNumbersPuzzle_HaxeFlixel",
-		"/home/varomix/PROJECTx/HAXE_PROJx/SlideNumbersPuzzle/SlideNumbersPuzzle_HaxeFlixel/assets",
-		"/home/varomix/PROJECTx/HAXE_PROJx/SlideNumbersPuzzle/SlideNumbersPuzzle_HaxeFlixel/assets/data",
-		"/home/varomix/PROJECTx/HAXE_PROJx/SlideNumbersPuzzle/SlideNumbersPuzzle_HaxeFlixel/assets/images",
-		"/home/varomix/PROJECTx/HAXE_PROJx/SlideNumbersPuzzle/SlideNumbersPuzzle_HaxeFlixel/source"
+		"/home/varomix/PROJECTx/HAXE_PROJx/SlideNumbersPuzzle/SlideNumbersPuzzle_HaxeFlixel"
 	],
 	"file_history":
 	[
-		"/home/varomix/PROJECTx/HAXE_PROJx/SlideNumbersPuzzle/SlideNumbersPuzzle_HaxeFlixel/source/Main.hx",
-		"/home/varomix/PROJECTx/HAXE_PROJx/SlideNumbersPuzzle/SlideNumbersPuzzle_HaxeFlixel/source/Square.hx",
+		"/D/depot/Config/DefaultEngine.ini",
+		"/E/__PROJECTx_2015/PERCY_2015/production/ff2/ff2_shot_25.bat",
+		"/E/UE4_4.8.3/Engine/Config/ConsoleVariables.ini",
+		"/D/depot/Saved/SaveGames/AstoroidsSaveSlot.sav",
 		"/home/varomix/PROJECTx/HAXE_PROJx/SlideNumbersPuzzle/SlideNumbersPuzzle_HaxeFlixel/Project.xml",
 		"/home/varomix/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
 		"/home/varomix/PROJECTx/HAXE_PROJx/SlideNumbersPuzzle/SlideNumbersPuzzle_HaxeFlixel/source/square/hx.hx",
@@ -273,10 +219,6 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"shuffleBtn",
-			"_highScore",
-			"_saveGame",
-			"closeBtn",
 			"blank"
 		],
 		"highlight": true,
@@ -285,8 +227,6 @@
 		"regex": false,
 		"replace_history":
 		[
-			"_saveGame",
-			""
 		],
 		"reverse": false,
 		"show_context": true,
@@ -297,74 +237,11 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "source/PlayState.hx",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 8444,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2618,
-								2618
-							]
-						],
-						"settings":
-						{
-							"haxe-build-id": 0,
-							"syntax": "Packages/Haxe/Haxe.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1632.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "source/Options.hx",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1130,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1123,
-								1123
-							],
-							[
-								1126,
-								1126
-							]
-						],
-						"settings":
-						{
-							"haxe-build-id": 0,
-							"syntax": "Packages/Haxe/Haxe.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 416.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
 					"file": "source/Main.hx",
 					"semi_transient": false,
 					"settings":
@@ -376,8 +253,8 @@
 						"selection":
 						[
 							[
-								0,
-								0
+								376,
+								376
 							]
 						],
 						"settings":
@@ -387,14 +264,137 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 288.0,
+						"translation.y": 96.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Project.xml",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3181,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								832,
+								832
+							],
+							[
+								895,
+								895
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/XML/XML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "source/PlayState.hx",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8480,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7103,
+								7103
+							]
+						],
+						"settings":
+						{
+							"haxe-build-id": 0,
+							"syntax": "Packages/Haxe/Haxe.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 5634.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
 					"buffer": 3,
+					"file": "source/Instructions.hx",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1469,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								710,
+								710
+							]
+						],
+						"settings":
+						{
+							"haxe-build-id": 0,
+							"syntax": "Packages/Haxe/Haxe.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 239.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "source/Options.hx",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1124,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								779,
+								779
+							]
+						],
+						"settings":
+						{
+							"haxe-build-id": 0,
+							"syntax": "Packages/Haxe/Haxe.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 184.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
 					"file": "source/Square.hx",
 					"semi_transient": false,
 					"settings":
@@ -406,21 +406,20 @@
 						"selection":
 						[
 							[
-								603,
-								603
+								499,
+								499
 							]
 						],
 						"settings":
 						{
 							"haxe-build-id": 0,
-							"syntax": "Packages/Haxe/Haxe.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/Haxe/Haxe.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -428,7 +427,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 24.0
+		"height": 22.0
 	},
 	"input":
 	{
@@ -459,21 +458,17 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 151.0
+		"height": 237.0
 	},
 	"output.find_results":
 	{
 		"height": 0.0
 	},
-	"output.usage":
-	{
-		"height": 92.0
-	},
 	"pinned_build_system": "",
 	"project": "SlideNumbersPuzzle_HaxeFlixel.sublime-project",
 	"replace":
 	{
-		"height": 72.0
+		"height": 40.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -496,12 +491,12 @@
 	},
 	"select_symbol":
 	{
-		"height": 400.0,
+		"height": 0.0,
 		"last_filter": "",
 		"selected_items":
 		[
 		],
-		"width": 430.0
+		"width": 0.0
 	},
 	"selected_group": 0,
 	"settings":

@@ -16,12 +16,17 @@ class Options extends FlxSubState
 	 	bgColor = 0xEE112222;
 
 	 	var title = new FlxText(0, 	50, FlxG.width, "\nOptions", 50);
-		title.setFormat("assets/data/LuckiestGuy.ttf", 60, FlxColor.GOLDENROD, "center", null, null, true);
+		title.setFormat("assets/data/LuckiestGuy.ttf", 60, FlxColor.GOLDENROD, "center", 0, 0, true);
 		title.borderSize = 15;
 		title.setBorderStyle(FlxText.BORDER_OUTLINE, FlxColor.BLACK, 2);
 		add(title);
 
-		var restartBtn = new FlxButton(20, 100, "Restart", restart);
+		var restartBtn = new FlxButton(FlxG.width/2 -100, 200, "Restart\ngame", restart);
+		restartBtn.loadGraphic("assets/images/playblock.png");
+		restartBtn.label.setFormat("assets/data/LuckiestGuy.ttf", 40, FlxColor.BLACK, "center", FlxText.BORDER_SHADOW, FlxColor.WHITE, true);
+	    restartBtn.labelOffsets[0].y = 15;
+	    restartBtn.labelOffsets[1].y = 10;
+	    restartBtn.labelOffsets[2].y = 20;
 		add(restartBtn);
 
 		var playBtn = new FlxButton(FlxG.width/2 - 100, 480, "RESUME", function(){ close(); } );

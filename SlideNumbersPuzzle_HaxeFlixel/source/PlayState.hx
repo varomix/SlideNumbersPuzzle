@@ -239,7 +239,7 @@ class PlayState extends FlxState
 	    btn.x = posX;
 	    btn.y = posY;
 
-	    var other:FlxButton;
+	    var other:FlxButton = new FlxButton();
 	     // move RIGHT
 		btn.x += 20;
 		// check if we're overlaping with the button with ID = 0
@@ -319,14 +319,12 @@ class PlayState extends FlxState
 	    	}
 	    }
 
-	    trace("current order: " + currentOrder + "  win pattern: " + winOrder_pattern01);
+	    // trace("current order: " + currentOrder + "  win pattern: " + winOrder_pattern01);
 	    if(currentOrder == winOrder_pattern01)
 	    {
 	    	trace("Pattern one you WIN!!");
-	    	// show win substate
 
 	    	// check for the high score 
-
 	    	if(numMoves < Std.parseInt(_saveGame.data.highscore) || highScoreInt == 0)
 	    	{
 	    		highScoreInt = numMoves;
@@ -334,6 +332,9 @@ class PlayState extends FlxState
 	    		_saveGame.data.highscore = numMoves;
 	    		_saveGame.flush(); // save the data
 	    	}
+
+	    	// show win substate
+	    	openSubState(new Win());
 	    }
 	    else
 	    {
@@ -347,7 +348,7 @@ class PlayState extends FlxState
 
 	public function getTile(X:Int, Y:Int):FlxButton
 	{
-		var btn:FlxButton;
+		var btn:FlxButton = new FlxButton();
 		for (i in 0 ... boardGrp.length)
 		{
 			btn = cast (boardGrp.members[i], FlxButton);

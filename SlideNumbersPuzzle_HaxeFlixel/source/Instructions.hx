@@ -21,7 +21,7 @@ class Instructions extends FlxSubState
 		add(title2);
 
 	 	var title = new FlxText(0, -50, FlxG.width, "\nSlide Numbers Puzzle", 50);
-		title.setFormat("assets/data/LuckiestGuy.ttf", 100, FlxColor.GOLDENROD, "center", null, null, true);
+		title.setFormat("assets/data/LuckiestGuy.ttf", 100, FlxColor.GOLDENROD, "center", 0 , 0, true);
 		title.borderSize = 15;
 		title.setBorderStyle(FlxText.BORDER_OUTLINE, FlxColor.BLACK, 2);
 		add(title);
