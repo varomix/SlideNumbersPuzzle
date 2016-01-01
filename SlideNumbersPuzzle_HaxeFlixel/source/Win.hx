@@ -8,7 +8,6 @@ import flixel.util.FlxColor;
 
 using flixel.util.FlxSpriteUtil;
 
-
 class Win extends FlxSubState
 {
 	override public function create():Void
@@ -21,8 +20,14 @@ class Win extends FlxSubState
 		title.setBorderStyle(FlxText.BORDER_OUTLINE, FlxColor.BLACK, 2);
 		add(title);
 
-	 	var moves = new FlxText(0, 	150, FlxG.width, "\nMoves:", 50);
+	 	var moves = new FlxText(140, 170, FlxG.width, "\nMoves:  " + Reg.moves, 50);
+	 	moves.setFormat("assets/data/LuckiestGuy.ttf", 50, FlxColor.WHITE, "left", FlxText.BORDER_SHADOW, FlxColor.BLACK, true);
 	 	add(moves);
+
+	 	var bestScore = new FlxText(30, 270, FlxG.width, "\nBest Score:  " + Reg.highScore, 50);
+	 	bestScore.setFormat("assets/data/LuckiestGuy.ttf", 50, FlxColor.WHITE, "lef
+	 		t", FlxText.BORDER_SHADOW, FlxColor.BLACK, true);
+	 	add(bestScore);
 
 		var playAgainBtn = new FlxButton(FlxG.width/2 -100, 480, "Play\nagain", restart);
 		playAgainBtn.loadGraphic("assets/images/playblock.png");

@@ -10,6 +10,7 @@ import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxSave;
+import flixel.util.FlxTimer;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -26,11 +27,12 @@ class PlayState extends FlxState
 	// we'll use this to save the high score
 	public var _saveGame:FlxSave;
 
-	public var numMoves:Int = 0;
+	//public var numMoves:Int = 0;
 	var movesTxt:FlxText;
 
 	var highScoreTxt:FlxText;
-	var highScoreInt:Int = 0;
+	public var highScoreInt:Int = 0;
+
 
 	var xOffset = 17;
 	var yOffset = 15;
@@ -42,6 +44,8 @@ class PlayState extends FlxState
 	override public function create():Void
 	{
 		super.create();
+
+		FlxG.camera.fade(FlxColor.BLACK, 1, true);
 		
 		_saveGame = new FlxSave();
 		_saveGame.bind("gameSaveData");
@@ -58,7 +62,7 @@ class PlayState extends FlxState
 		title.setFormat("assets/data/LuckiestGuy.ttf", 34, FlxColor.BLACK, "center", FlxText.BORDER_SHADOW, FlxColor.WHITE, true);
 		add(title);
 
-		movesTxt = new FlxText(30, 550, FlxG.width, "Moves: " + numMoves, 30);
+		movesTxt = new FlxText(30, 550, FlxG.width, "Moves: " + Reg.moves, 30);
 		movesTxt.setFormat("assets/data/LuckiestGuy.ttf", 30, FlxColor.BLACK, "left", FlxText.BORDER_SHADOW, FlxColor.WHITE, true);
 		add(movesTxt);
 
@@ -66,6 +70,7 @@ class PlayState extends FlxState
 		if(_saveGame.data.highscore != null)
 		{
 			highScoreInt = _saveGame.data.highscore;
+			Reg.highScore = _saveGame.data.highscore;
 		}
 
 		highScoreTxt = new FlxText(280, 550, FlxG.width, "Hi Score: " + highScoreInt, 30);
@@ -84,6 +89,7 @@ class PlayState extends FlxState
 		add(options);
 
 		openSubState(new Instructions());
+		// openSubState(new Win());
 
 
 	}
@@ -144,6 +150,8 @@ class PlayState extends FlxState
 	    add(boardGrp);
 
 	}
+
+	var moving:Bool = false;
 
 	public function moveNumbers(btn:FlxButton):Void
 	{
@@ -277,36 +285,46 @@ class PlayState extends FlxState
 	    /// NOW WE CAN MOVE THEM
 	    if(up)
 	    {
+	    	moving = true;
 	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x, btn.y - 128, speed, true, {complete:checkWin});
 	    	FlxTween.linearMotion(other, other.x, other.y, other.x, other.y + 128, speed, true);
 	    }
 	     if(down)
 	    {
+	    	moving = true;
 	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x, btn.y + 128, speed, true, {complete:checkWin});
 	    	FlxTween.linearMotion(other, other.x, other.y, other.x, other.y - 128, speed, true);
 	    }
 	     if(left)
 	    {
+	    	moving = true;
 	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x - 128, btn.y, speed, true, {complete:checkWin});
 	    	FlxTween.linearMotion(other, other.x, other.y, other.x + 128, other.y, speed, true);
 	    }
 	     if(right)
 	    {
+	    	moving = true;
 	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x + 128, btn.y, speed, true, {complete:checkWin});
 	    	FlxTween.linearMotion(other, other.x, other.y, other.x - 128, other.y, speed, true);
 	    }
 	}
 
+	var winOrder_pattern01:String = "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0,";
+	var currentOrder:String;
+	var col:Int = 0;
+	var row:Int = 0;
+	var btn:FlxButton;
 	public function checkWin(_)
 	{
-		var winOrder_pattern01:String = "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0,";
-		var currentOrder:String = "";  //so we don't get null, initialize it
+		moving = false;
+		
+		currentOrder = "";  //so we don't get null, initialize it
 
-		var col:Int = 0;
-		var row:Int = 0;
+		col = 0;
+		row = 0;
 		for (i in 0 ... 16)
 	    {
-	    	var btn:FlxButton;
+	    	
 
 	    	btn = getTile(col,row);
 	    	currentOrder += btn.label.text + ",";
@@ -325,40 +343,45 @@ class PlayState extends FlxState
 	    	trace("Pattern one you WIN!!");
 
 	    	// check for the high score 
-	    	if(numMoves < Std.parseInt(_saveGame.data.highscore) || highScoreInt == 0)
+	    	if(Reg.moves < Std.parseInt(_saveGame.data.highscore) || highScoreInt == 0)
 	    	{
-	    		highScoreInt = numMoves;
+	    		highScoreInt = Reg.moves;
 	    		trace(" new HIGH SCORE ");
-	    		_saveGame.data.highscore = numMoves;
+	    		_saveGame.data.highscore = Reg.moves;
 	    		_saveGame.flush(); // save the data
 	    	}
 
-	    	// show win substate
-	    	openSubState(new Win());
+	    	// show win substate after a 2 sec pause
+	    	new FlxTimer(0.5, function(_)
+	    	{
+	    		FlxG.camera.fade(FlxColor.WHITE, 1, true);
+	    		openSubState(new Win());
+	    	});
 	    }
 	    else
 	    {
 	    	// if we didn't win add one to the moves count
-			numMoves++;
+			Reg.moves++;
 			// and update the moves text
-			movesTxt.text = "Moves: " + numMoves;
+			movesTxt.text = "Moves: " + Reg.moves;
 
 	    }
 	}
 
+	var btnTile:FlxButton = new FlxButton();
 	public function getTile(X:Int, Y:Int):FlxButton
 	{
-		var btn:FlxButton = new FlxButton();
+		
 		for (i in 0 ... boardGrp.length)
 		{
-			btn = cast (boardGrp.members[i], FlxButton);
+			btnTile = cast (boardGrp.members[i], FlxButton);
 
-			if(btn.x == (X  * 128) + xOffset && btn.y == (Y * 128) + yOffset )
+			if(btnTile.x == (X  * 128) + xOffset && btnTile.y == (Y * 128) + yOffset )
 			{
-				return btn;
+				return btnTile;
 			}
 		}
-		return btn;
+		return btnTile;
 	}
 
 	/**
@@ -373,6 +396,8 @@ class PlayState extends FlxState
 	/**
 	 * Function that is called once every frame.
 	 */
+
+	var btnClick:FlxButton;
 	override public function update():Void
 	{
 		super.update();
@@ -382,11 +407,14 @@ class PlayState extends FlxState
 		{
 			for (i in 0 ... boardGrp.length)
 			{
-				var btn:FlxButton = cast (boardGrp.members[i], FlxButton);
+				btnClick = cast (boardGrp.members[i], FlxButton);
 
-				if (btn.status == FlxButton.PRESSED)
+				if (btnClick.status == FlxButton.PRESSED)
 				{
-					moveNumbers(btn);
+					if(moving == false)  // Only move if a piece is not moving
+					{
+						moveNumbers(btnClick);
+					}
 				}
 
 			}
