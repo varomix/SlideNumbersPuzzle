@@ -5,14 +5,20 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.FlxSubState;
 import flixel.util.FlxColor;
+import flixel.system.FlxSound;
 
 using flixel.util.FlxSpriteUtil;
 
 
 class Options extends FlxSubState
 {
+	var click_snd:FlxSound;
+
 	override public function create():Void
 	{	
+
+		click_snd = FlxG.sound.load(Reg.SND_CLICK);
+
 	 	bgColor = 0xEE112222;
 
 	 	var title = new FlxText(0, 	50, FlxG.width, "\nOptions", 50);
@@ -29,7 +35,7 @@ class Options extends FlxSubState
 	    restartBtn.labelOffsets[2].y = 20;
 		add(restartBtn);
 
-		var playBtn = new FlxButton(FlxG.width/2 - 100, 480, "RESUME", function(){ close(); } );
+		var playBtn = new FlxButton(FlxG.width/2 - 100, 480, "RESUME", function(){ click_snd.play(); close(); } );
 		playBtn.loadGraphic("assets/images/playblock.png");
 		playBtn.label.setFormat("assets/data/LuckiestGuy.ttf", 40, FlxColor.BLACK, "center", FlxText.BORDER_SHADOW, FlxColor.WHITE, true);
 	    playBtn.labelOffsets[0].y = 35;
@@ -41,6 +47,7 @@ class Options extends FlxSubState
 
 	public function restart():Void
 	{
+		click_snd.play();
 		FlxG.switchState( new PlayState());
 	}
 	

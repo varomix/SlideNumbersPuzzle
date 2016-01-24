@@ -9,6 +9,15 @@ import flixel.util.FlxSave;
  */
 class Reg
 {
+	// sounds
+	public static inline var SND_CLICK:String = "assets/sounds/click2.ogg";
+	public static inline var SND_PAUSE:String = "assets/sounds/pause.wav";
+	public static inline var SND_MOVE:String = "assets/sounds/move.wav";
+	public static inline var SND_SUCCESS:String = "assets/sounds/success.ogg";
+
+	// Music
+	public static inline var MUSIC:String = "assets/music/slideMusic.ogg";
+
 	/**
 	 * Generic levels Array that can be used for cross-state stuff.
 	 * Example usage: Storing the levels of a platformer.

@@ -5,13 +5,19 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.FlxSubState;
 import flixel.util.FlxColor;
+import flixel.system.FlxSound;
 
 using flixel.util.FlxSpriteUtil;
 
 class Win extends FlxSubState
 {
+	var click_snd:FlxSound;
+
 	override public function create():Void
 	{	
+
+		click_snd = FlxG.sound.load(Reg.SND_CLICK);
+
 	 	bgColor = 0xCC112222;
 
 	 	var title = new FlxText(0, 	50, FlxG.width, "\nYou Win!", 50);
@@ -41,6 +47,7 @@ class Win extends FlxSubState
 
 	public function restart():Void
 	{
+		click_snd.play();
 		FlxG.switchState( new PlayState());
 	}
 	

@@ -31,6 +31,12 @@
 	<classpath name="source" />
 	<assets path="assets" />
 	
+		<!-- <music path="music/slideMusic.mp3" id="music_1" />
+		<music path="sounds/click.wav" id="click" />
+		<music path="sounds/pause.wav" id="pause" />
+
+	</assets> -->
+	
 	<!--------------------------------LIBRARIES------------------------------------->
 
 	<haxelib name="flixel"/>

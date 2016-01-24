@@ -11,6 +11,7 @@ import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxSave;
 import flixel.util.FlxTimer;
+import flixel.system.FlxSound;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -23,6 +24,12 @@ class PlayState extends FlxState
 	private var blankSquare:Square;
 	private var boardGrp:FlxSpriteGroup;
 	var order:Array<Int> = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+
+	private var click_snd:FlxSound;
+	private var move_snd:FlxSound;
+	private var pause_snd:FlxSound;
+	private var success_snd:FlxSound;
+
 
 	// we'll use this to save the high score
 	public var _saveGame:FlxSave;
@@ -45,7 +52,15 @@ class PlayState extends FlxState
 	{
 		super.create();
 
+		// reset moves variable
+		Reg.moves = 0;
+
 		FlxG.camera.fade(FlxColor.BLACK, 1, true);
+
+		click_snd = FlxG.sound.load(Reg.SND_CLICK);
+		move_snd = FlxG.sound.load(Reg.SND_MOVE);
+		pause_snd = FlxG.sound.load(Reg.SND_PAUSE);
+		success_snd = FlxG.sound.load(Reg.SND_SUCCESS);
 		
 		_saveGame = new FlxSave();
 		_saveGame.bind("gameSaveData");
@@ -90,12 +105,14 @@ class PlayState extends FlxState
 
 		openSubState(new Instructions());
 		// openSubState(new Win());
+		FlxG.sound.playMusic(Reg.MUSIC,1, true);
 
 
 	}
 
 	public function options():Void
 	{
+		click_snd.play();
 		openSubState( new Options() );
 	}
 
@@ -285,24 +302,28 @@ class PlayState extends FlxState
 	    /// NOW WE CAN MOVE THEM
 	    if(up)
 	    {
+	    	move_snd.play(true);
 	    	moving = true;
 	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x, btn.y - 128, speed, true, {complete:checkWin});
 	    	FlxTween.linearMotion(other, other.x, other.y, other.x, other.y + 128, speed, true);
 	    }
 	     if(down)
 	    {
+	    	move_snd.play(true);
 	    	moving = true;
 	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x, btn.y + 128, speed, true, {complete:checkWin});
 	    	FlxTween.linearMotion(other, other.x, other.y, other.x, other.y - 128, speed, true);
 	    }
 	     if(left)
 	    {
+	    	move_snd.play(true);
 	    	moving = true;
 	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x - 128, btn.y, speed, true, {complete:checkWin});
 	    	FlxTween.linearMotion(other, other.x, other.y, other.x + 128, other.y, speed, true);
 	    }
 	     if(right)
 	    {
+	    	move_snd.play(true);
 	    	moving = true;
 	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x + 128, btn.y, speed, true, {complete:checkWin});
 	    	FlxTween.linearMotion(other, other.x, other.y, other.x - 128, other.y, speed, true);
@@ -341,6 +362,9 @@ class PlayState extends FlxState
 	    if(currentOrder == winOrder_pattern01)
 	    {
 	    	trace("Pattern one you WIN!!");
+
+	    	FlxG.sound.music.fadeOut(0.25, 0);
+	    	success_snd.play();
 
 	    	// check for the high score 
 	    	if(Reg.moves < Std.parseInt(_saveGame.data.highscore) || highScoreInt == 0)
