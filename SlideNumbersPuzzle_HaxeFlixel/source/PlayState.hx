@@ -5,7 +5,7 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
-import flixel.util.FlxMath;
+import flixel.math.FlxMath;
 import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
@@ -46,7 +46,7 @@ class PlayState extends FlxState
 	var tileSize = 128;
 
 	/**
-	 * Function that is called up when to state is created to set it up. 
+	 * Function that is called up when to state is created to set it up.
 	 */
 	override public function create():Void
 	{
@@ -61,24 +61,24 @@ class PlayState extends FlxState
 		move_snd = FlxG.sound.load(Reg.SND_MOVE);
 		pause_snd = FlxG.sound.load(Reg.SND_PAUSE);
 		success_snd = FlxG.sound.load(Reg.SND_SUCCESS);
-		
+
 		_saveGame = new FlxSave();
 		_saveGame.bind("gameSaveData");
 
 		// create board group
 		boardGrp = new FlxSpriteGroup(17, 15);
-		
+
 		// create BG
 		var bg:FlxSprite = new FlxSprite(0,0);
 		bg.loadGraphic("assets/images/bg.jpg");
 		add(bg);
 
 		var title = new FlxText(0, 605, FlxG.width, "Slide Numbers Puzzle", 30);
-		title.setFormat("assets/data/LuckiestGuy.ttf", 34, FlxColor.BLACK, "center", FlxText.BORDER_SHADOW, FlxColor.WHITE, true);
+		title.setFormat("assets/data/LuckiestGuy.ttf", 34, FlxColor.BLACK, "center", FlxTextBorderStyle.SHADOW, FlxColor.WHITE, true);
 		add(title);
 
 		movesTxt = new FlxText(30, 550, FlxG.width, "Moves: " + Reg.moves, 30);
-		movesTxt.setFormat("assets/data/LuckiestGuy.ttf", 30, FlxColor.BLACK, "left", FlxText.BORDER_SHADOW, FlxColor.WHITE, true);
+		movesTxt.setFormat("assets/data/LuckiestGuy.ttf", 30, FlxColor.BLACK, "left", FlxTextBorderStyle.SHADOW, FlxColor.WHITE, true);
 		add(movesTxt);
 
 		// get the previous high Score if exists
@@ -89,7 +89,7 @@ class PlayState extends FlxState
 		}
 
 		highScoreTxt = new FlxText(280, 550, FlxG.width, "Hi Score: " + highScoreInt, 30);
-		highScoreTxt.setFormat("assets/data/LuckiestGuy.ttf", 30, FlxColor.BLACK, "left", FlxText.BORDER_SHADOW, FlxColor.WHITE, true);
+		highScoreTxt.setFormat("assets/data/LuckiestGuy.ttf", 30, FlxColor.BLACK, "left", FlxTextBorderStyle.SHADOW, FlxColor.WHITE, true);
 		add(highScoreTxt);
 
 
@@ -141,7 +141,7 @@ class PlayState extends FlxState
 	    	// add color to odd numbers
 	    	if(Std.parseInt(square.label.text) % 2 == 1)
 	    	{
-	    		square.color = FlxColor.GOLDEN;
+	    		square.color = 0xffffd700;
 	    	}
 
 	    	boardGrp.add(square);
@@ -185,7 +185,7 @@ class PlayState extends FlxState
 
 		var col:Int = 0;
 		var row:Int = 0;
-		
+
 		// move UP
 		btn.y += -20;
 		// check if we're overlaping with the button with ID = 0
@@ -304,28 +304,28 @@ class PlayState extends FlxState
 	    {
 	    	move_snd.play(true);
 	    	moving = true;
-	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x, btn.y - 128, speed, true, {complete:checkWin});
+	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x, btn.y - 128, speed, true, {onComplete:checkWin});
 	    	FlxTween.linearMotion(other, other.x, other.y, other.x, other.y + 128, speed, true);
 	    }
 	     if(down)
 	    {
 	    	move_snd.play(true);
 	    	moving = true;
-	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x, btn.y + 128, speed, true, {complete:checkWin});
+	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x, btn.y + 128, speed, true, {onComplete:checkWin});
 	    	FlxTween.linearMotion(other, other.x, other.y, other.x, other.y - 128, speed, true);
 	    }
 	     if(left)
 	    {
 	    	move_snd.play(true);
 	    	moving = true;
-	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x - 128, btn.y, speed, true, {complete:checkWin});
+	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x - 128, btn.y, speed, true, {onComplete:checkWin});
 	    	FlxTween.linearMotion(other, other.x, other.y, other.x + 128, other.y, speed, true);
 	    }
 	     if(right)
 	    {
 	    	move_snd.play(true);
 	    	moving = true;
-	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x + 128, btn.y, speed, true, {complete:checkWin});
+	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x + 128, btn.y, speed, true, {onComplete:checkWin});
 	    	FlxTween.linearMotion(other, other.x, other.y, other.x - 128, other.y, speed, true);
 	    }
 	}
@@ -338,14 +338,14 @@ class PlayState extends FlxState
 	public function checkWin(_)
 	{
 		moving = false;
-		
+
 		currentOrder = "";  //so we don't get null, initialize it
 
 		col = 0;
 		row = 0;
 		for (i in 0 ... 16)
 	    {
-	    	
+
 
 	    	btn = getTile(col,row);
 	    	currentOrder += btn.label.text + ",";
@@ -366,7 +366,7 @@ class PlayState extends FlxState
 	    	FlxG.sound.music.fadeOut(0.25, 0);
 	    	success_snd.play();
 
-	    	// check for the high score 
+	    	// check for the high score
 	    	if(Reg.moves < Std.parseInt(_saveGame.data.highscore) || highScoreInt == 0)
 	    	{
 	    		highScoreInt = Reg.moves;
@@ -376,11 +376,9 @@ class PlayState extends FlxState
 	    	}
 
 	    	// show win substate after a 2 sec pause
-	    	new FlxTimer(0.5, function(_)
-	    	{
-	    		FlxG.camera.fade(FlxColor.WHITE, 1, true);
-	    		openSubState(new Win());
-	    	});
+	    	var winTimer = new FlxTimer().start(0.5, showWinState, 1);
+
+	    
 	    }
 	    else
 	    {
@@ -392,10 +390,16 @@ class PlayState extends FlxState
 	    }
 	}
 
+	public function showWinState(timer:FlxTimer)
+	{
+		FlxG.camera.fade(FlxColor.WHITE, 1, true);
+		openSubState(new Win());
+	}
+
 	var btnTile:FlxButton = new FlxButton();
 	public function getTile(X:Int, Y:Int):FlxButton
 	{
-		
+
 		for (i in 0 ... boardGrp.length)
 		{
 			btnTile = cast (boardGrp.members[i], FlxButton);
@@ -409,7 +413,7 @@ class PlayState extends FlxState
 	}
 
 	/**
-	 * Function that is called when this state is destroyed - you might want to 
+	 * Function that is called when this state is destroyed - you might want to
 	 * consider setting all objects this state uses to null to help garbage collection.
 	 */
 	override public function destroy():Void
@@ -422,9 +426,9 @@ class PlayState extends FlxState
 	 */
 
 	var btnClick:FlxButton;
-	override public function update():Void
+	override public function update(elapsed:Float):Void
 	{
-		super.update();
+		super.update(elapsed);
 
 		// clicking on the buttons
 		if(FlxG.mouse.justPressed)
@@ -443,5 +447,5 @@ class PlayState extends FlxState
 
 			}
 		}
-	}	
+	}
 }
