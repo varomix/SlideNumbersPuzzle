@@ -44,7 +44,8 @@
 	<!--------------------------------LIBRARIES------------------------------------->
 
 	<haxelib name="flixel"/>
-	<haxelib name="extension-admob" />
+	<haxelib name="samcodes-admob" />
+	<!-- <haxelib name="extension-admob" /> -->
 	
 	<!--In case you want to use the addons package-->
 	<!--haxelib name="flixel-addons" /-->
@@ -88,7 +89,8 @@
 	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
 	
 	<!--------------------------------CUSTOM---------------------------------------->
-	<android target-sdk-version="21" />
+	<setenv name="AdmobTestDeviceId" value="4661B05B0B8A639FECE9C4458E684816" />
+	<android target-sdk-version="23" />
 	<android permission="android.permission.INTERNET" />
 	<android permission="android.permission.ACCESS_NETWORK_STATE" />
 

@@ -15,7 +15,8 @@ import flixel.util.FlxTimer;
 import flixel.system.FlxSound;
 import flixel.FlxSubState;
 import extension.admob.AdMob;
-import extension.admob.GravityMode;
+import extension.admob.AdMobListener;
+import extension.admob.AdMobGravity;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -51,6 +52,9 @@ class PlayState extends FlxState
 	var yOffset = 188;
 	var tileSize = 180;
 
+	// AdMob Ad unit ID
+	var bannerId:String = "ca-app-pub-8169263597992779/9767114441";
+
 	/**
 	 * Function that is called up when to state is created to set it up.
 	 */
@@ -61,9 +65,13 @@ class PlayState extends FlxState
 		FlxG.camera.antialiasing = true;
 
 		// admob start
-		AdMob.enableTestingAds();
-		AdMob.initAndroid("Bottom Banner on Play", "ca-app-pub-8169263597992779/9767114441", GravityMode.BOTTOM);
+		AdMob.init();
+		AdMob.setListener(new AdMobListener());
+		AdMob.setBannerPosition(AdMobHorizontalGravity.CENTER, AdMobVerticalGravity.BOTTOM);
+
 		
+		AdMob.refreshBanner(bannerId);
+
 		// reset moves variable
 		Reg.moves = 0;
 
@@ -140,7 +148,7 @@ class PlayState extends FlxState
 		FlxG.sound.playMusic(Reg.MUSIC,1, true);
 
 		// Show admob banner
-		AdMob.showBanner();
+		AdMob.showBanner(bannerId);
 	}
 
 	public function options():Void
