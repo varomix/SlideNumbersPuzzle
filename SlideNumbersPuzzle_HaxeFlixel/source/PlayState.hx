@@ -14,8 +14,11 @@ import flixel.util.FlxSave;
 import flixel.util.FlxTimer;
 import flixel.system.FlxSound;
 import flixel.FlxSubState;
+import extension.admob.AdMob;
+import extension.admob.GravityMode;
 
 using flixel.util.FlxSpriteUtil;
+
 
 /**
  * A FlxState which can be used for the actual gameplay.
@@ -57,6 +60,10 @@ class PlayState extends FlxState
 		// make it look smooth
 		FlxG.camera.antialiasing = true;
 
+		// admob start
+		AdMob.enableTestingAds();
+		AdMob.initAndroid("Bottom Banner on Play", "ca-app-pub-8169263597992779/9767114441", GravityMode.BOTTOM);
+		
 		// reset moves variable
 		Reg.moves = 0;
 
@@ -131,6 +138,9 @@ class PlayState extends FlxState
 	{
 		// TODO : Check settings to see if the user wants music
 		FlxG.sound.playMusic(Reg.MUSIC,1, true);
+
+		// Show admob banner
+		AdMob.showBanner();
 	}
 
 	public function options():Void
