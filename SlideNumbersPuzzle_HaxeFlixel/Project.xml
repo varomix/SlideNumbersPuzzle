@@ -89,6 +89,9 @@
 	
 	<!--------------------------------CUSTOM---------------------------------------->
 	<android target-sdk-version="21" />
+	<android permission="android.permission.INTERNET" />
+	<android permission="android.permission.ACCESS_NETWORK_STATE" />
+
 	
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
 </project>
