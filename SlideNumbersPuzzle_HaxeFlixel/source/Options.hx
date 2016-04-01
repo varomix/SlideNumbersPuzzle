@@ -14,8 +14,6 @@ class Options extends FlxSubState
 {
 	var click_snd:FlxSound;
 
-	var _null:Null<Int> = null;
-
 	override public function create():Void
 	{	
 

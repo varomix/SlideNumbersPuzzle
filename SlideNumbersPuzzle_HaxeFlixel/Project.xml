@@ -14,8 +14,12 @@
 	<!--------------------------------WINDOW SETTINGS------------------------------->
 	
 	<!--These window settings apply to all targets-->
-	<window width="544" height="650" fps="60" background="#000000" hardware="true" vsync="true" />
+	<window width="768" height="1280" fps="60" background="#000000" hardware="true" vsync="true" />
 	
+	<!--------------------------------TEST SETTING
+	<window width="600" height="1000" fps="60" background="#000000" hardware="true" vsync="true" />
+	------------------------------>
+
 	<!--Web-specific-->
 	<window if="web" orientation="portrait"  />
 	
@@ -23,7 +27,7 @@
 	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" />
 	
 	<!--Mobile-specific-->
-	<window if="mobile" orientation="landscape" fullscreen="true" width="0" height="0" />
+	<window if="mobile" orientation="portrait" fullscreen="true" width="768" height="1280" />
 	
 	<!--------------------------------PATHS SETTINGS-------------------------------->
 	

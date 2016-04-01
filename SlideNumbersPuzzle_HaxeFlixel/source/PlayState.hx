@@ -6,12 +6,14 @@ import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
+import flixel.math.FlxPoint;
 import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxSave;
 import flixel.util.FlxTimer;
 import flixel.system.FlxSound;
+import flixel.FlxSubState;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -31,6 +33,7 @@ class PlayState extends FlxState
 	private var success_snd:FlxSound;
 
 
+
 	// we'll use this to save the high score
 	public var _saveGame:FlxSave;
 
@@ -41,9 +44,9 @@ class PlayState extends FlxState
 	public var highScoreInt:Int = 0;
 
 
-	var xOffset = 17;
-	var yOffset = 15;
-	var tileSize = 128;
+	var xOffset = 24;
+	var yOffset = 188;
+	var tileSize = 180;
 
 	/**
 	 * Function that is called up when to state is created to set it up.
@@ -51,11 +54,13 @@ class PlayState extends FlxState
 	override public function create():Void
 	{
 		super.create();
+		// make it look smooth
+		FlxG.camera.antialiasing = true;
 
 		// reset moves variable
 		Reg.moves = 0;
 
-		FlxG.camera.fade(FlxColor.BLACK, 1, true);
+		// FlxG.camera.fade(FlxColor.BLACK, 1, true);
 
 		click_snd = FlxG.sound.load(Reg.SND_CLICK);
 		move_snd = FlxG.sound.load(Reg.SND_MOVE);
@@ -66,19 +71,21 @@ class PlayState extends FlxState
 		_saveGame.bind("gameSaveData");
 
 		// create board group
-		boardGrp = new FlxSpriteGroup(17, 15);
+		boardGrp = new FlxSpriteGroup(xOffset, yOffset);
 
 		// create BG
 		var bg:FlxSprite = new FlxSprite(0,0);
-		bg.loadGraphic("assets/images/bg.jpg");
+		bg.loadGraphic("assets/images/bg2.jpg");
 		add(bg);
 
-		var title = new FlxText(0, 605, FlxG.width, "Slide Numbers Puzzle", 30);
-		title.setFormat("assets/data/LuckiestGuy.ttf", 34, FlxColor.BLACK, "center", FlxTextBorderStyle.SHADOW, FlxColor.WHITE, true);
+		var fontSize:Int = 50;
+
+		var title = new FlxText(0, 1000, FlxG.width, "Slide Numbers Puzzle", 60);
+		title.setFormat("assets/data/LuckiestGuy.ttf", 60, FlxColor.BLACK, "center", FlxTextBorderStyle.SHADOW, FlxColor.WHITE, true);
 		add(title);
 
-		movesTxt = new FlxText(30, 550, FlxG.width, "Moves: " + Reg.moves, 30);
-		movesTxt.setFormat("assets/data/LuckiestGuy.ttf", 30, FlxColor.BLACK, "left", FlxTextBorderStyle.SHADOW, FlxColor.WHITE, true);
+		movesTxt = new FlxText(30, 115, FlxG.width, "Moves: " + Reg.moves, fontSize);
+		movesTxt.setFormat("assets/data/LuckiestGuy.ttf", fontSize, FlxColor.BLACK, "left", FlxTextBorderStyle.SHADOW, FlxColor.WHITE, true);
 		add(movesTxt);
 
 		// get the previous high Score if exists
@@ -88,8 +95,8 @@ class PlayState extends FlxState
 			Reg.highScore = _saveGame.data.highscore;
 		}
 
-		highScoreTxt = new FlxText(280, 550, FlxG.width, "Hi Score: " + highScoreInt, 30);
-		highScoreTxt.setFormat("assets/data/LuckiestGuy.ttf", 30, FlxColor.BLACK, "left", FlxTextBorderStyle.SHADOW, FlxColor.WHITE, true);
+		highScoreTxt = new FlxText(410, 115, FlxG.width, "Hi Score: " + highScoreInt, fontSize);
+		highScoreTxt.setFormat("assets/data/LuckiestGuy.ttf", fontSize, FlxColor.BLACK, "left", FlxTextBorderStyle.SHADOW, FlxColor.WHITE, true);
 		add(highScoreTxt);
 
 
@@ -99,21 +106,50 @@ class PlayState extends FlxState
 		// create the board
 		createBoard();
 
-		var options = new FlxButton(490, 605, "", options);
+		var options = new FlxButton(24, 24, "", options);
 		options.loadGraphic("assets/images/settings.png");
 		add(options);
 
-		openSubState(new Instructions());
-		// openSubState(new Win());
+		var mute = new FlxButton(640, -20, "", mute);
+		mute.loadGraphic("assets/images/mute.png");
+		mute.color = 0x000;
+		mute.setGraphicSize(64, 64);
+		add(mute);
+
+		// create Instructions Substate
+		var InstrucctionsSub:Instructions = new Instructions();
+		// start music on close
+		InstrucctionsSub.closeCallback = StartMusic;
+		openSubState(InstrucctionsSub);
+
+		// FlxG.sound.playMusic(Reg.MUSIC,1, true);
+
+
+	}
+
+	public function StartMusic():Void
+	{
+		// TODO : Check settings to see if the user wants music
 		FlxG.sound.playMusic(Reg.MUSIC,1, true);
-
-
 	}
 
 	public function options():Void
 	{
 		click_snd.play();
 		openSubState( new Options() );
+	}
+
+	public function mute():Void
+	{
+		if(FlxG.sound.music.playing)
+		{
+			FlxG.sound.music.stop();
+		}
+		else
+		{
+			FlxG.sound.music.play();
+		}
+		
 	}
 
 	public function shuffleArray(arr:Array<Int>)
@@ -136,7 +172,7 @@ class PlayState extends FlxState
 
 	    for (i in 0 ... 15)
 	    {
-	    	square = new Square(col * 128, row * 128, "" + order[i]);
+	    	square = new Square(col * tileSize, row * tileSize, "" + order[i]);
 
 	    	// add color to odd numbers
 	    	if(Std.parseInt(square.label.text) % 2 == 1)
@@ -156,7 +192,7 @@ class PlayState extends FlxState
 	    }
 
 	    // add the blank square
-	    blankSquare = new Square(384, 384, "0");
+	    blankSquare = new Square(tileSize * 3, tileSize * 3, "0");
 	    blankSquare.ID = 0;
 	    // blankSquare.alpha = 0.1;
 		blankSquare.visible = false;
@@ -304,29 +340,29 @@ class PlayState extends FlxState
 	    {
 	    	move_snd.play(true);
 	    	moving = true;
-	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x, btn.y - 128, speed, true, {onComplete:checkWin});
-	    	FlxTween.linearMotion(other, other.x, other.y, other.x, other.y + 128, speed, true);
+	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x, btn.y - tileSize, speed, true, {onComplete:checkWin});
+	    	FlxTween.linearMotion(other, other.x, other.y, other.x, other.y + tileSize, speed, true);
 	    }
 	     if(down)
 	    {
 	    	move_snd.play(true);
 	    	moving = true;
-	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x, btn.y + 128, speed, true, {onComplete:checkWin});
-	    	FlxTween.linearMotion(other, other.x, other.y, other.x, other.y - 128, speed, true);
+	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x, btn.y + tileSize, speed, true, {onComplete:checkWin});
+	    	FlxTween.linearMotion(other, other.x, other.y, other.x, other.y - tileSize, speed, true);
 	    }
 	     if(left)
 	    {
 	    	move_snd.play(true);
 	    	moving = true;
-	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x - 128, btn.y, speed, true, {onComplete:checkWin});
-	    	FlxTween.linearMotion(other, other.x, other.y, other.x + 128, other.y, speed, true);
+	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x - tileSize, btn.y, speed, true, {onComplete:checkWin});
+	    	FlxTween.linearMotion(other, other.x, other.y, other.x + tileSize, other.y, speed, true);
 	    }
 	     if(right)
 	    {
 	    	move_snd.play(true);
 	    	moving = true;
-	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x + 128, btn.y, speed, true, {onComplete:checkWin});
-	    	FlxTween.linearMotion(other, other.x, other.y, other.x - 128, other.y, speed, true);
+	    	FlxTween.linearMotion(btn, btn.x, btn.y, btn.x + tileSize, btn.y, speed, true, {onComplete:checkWin});
+	    	FlxTween.linearMotion(other, other.x, other.y, other.x - tileSize, other.y, speed, true);
 	    }
 	}
 
@@ -404,7 +440,7 @@ class PlayState extends FlxState
 		{
 			btnTile = cast (boardGrp.members[i], FlxButton);
 
-			if(btnTile.x == (X  * 128) + xOffset && btnTile.y == (Y * 128) + yOffset )
+			if(btnTile.x == (X  * tileSize) + xOffset && btnTile.y == (Y * tileSize) + yOffset )
 			{
 				return btnTile;
 			}
