@@ -17,7 +17,7 @@ class Square extends FlxButton
 	{
 	    super(X, Y, name);
 
-	    loadGraphic("assets/images/block2.png");
+	    loadGraphic("assets/images/block_180.png");
 	    this.label.setFormat("assets/data/LuckiestGuy.ttf", fontSize, FlxColor.BLACK, "center", FlxTextBorderStyle.SHADOW, FlxColor.WHITE, true);
 	    this.labelOffsets[0].y = fontSize/2;
 	    this.labelOffsets[1].y = fontSize/2;

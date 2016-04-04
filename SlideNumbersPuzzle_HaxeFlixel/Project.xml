@@ -44,7 +44,7 @@
 	<!--------------------------------LIBRARIES------------------------------------->
 
 	<haxelib name="flixel"/>
-	<haxelib name="samcodes-admob" />
+	<haxelib if="mobile" name="samcodes-admob" />
 	<!-- <haxelib name="extension-admob" /> -->
 	
 	<!--In case you want to use the addons package-->

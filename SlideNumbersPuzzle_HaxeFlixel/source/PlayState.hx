@@ -14,9 +14,15 @@ import flixel.util.FlxSave;
 import flixel.util.FlxTimer;
 import flixel.system.FlxSound;
 import flixel.FlxSubState;
+import flixel.graphics.frames.FlxBitmapFont;
+import flixel.text.FlxBitmapText;
+import openfl.Assets;
+
+#if mobile
 import extension.admob.AdMob;
 import extension.admob.AdMobListener;
 import extension.admob.AdMobGravity;
+#end
 
 using flixel.util.FlxSpriteUtil;
 
@@ -36,17 +42,15 @@ class PlayState extends FlxState
 	private var pause_snd:FlxSound;
 	private var success_snd:FlxSound;
 
+	public var btTitle:FlxBitmapText;
+	public var btMoves:FlxBitmapText;
+	public var btScore:FlxBitmapText;
 
 
 	// we'll use this to save the high score
 	public var _saveGame:FlxSave;
 
-	//public var numMoves:Int = 0;
-	var movesTxt:FlxText;
-
-	var highScoreTxt:FlxText;
 	public var highScoreInt:Int = 0;
-
 
 	var xOffset = 24;
 	var yOffset = 188;
@@ -64,13 +68,13 @@ class PlayState extends FlxState
 		// make it look smooth
 		FlxG.camera.antialiasing = true;
 
+		#if mobile
 		// admob start
 		AdMob.init();
 		AdMob.setListener(new AdMobListener());
 		AdMob.setBannerPosition(AdMobHorizontalGravity.CENTER, AdMobVerticalGravity.BOTTOM);
-
-		
 		AdMob.refreshBanner(bannerId);
+		#end
 
 		// reset moves variable
 		Reg.moves = 0;
@@ -90,18 +94,27 @@ class PlayState extends FlxState
 
 		// create BG
 		var bg:FlxSprite = new FlxSprite(0,0);
-		bg.loadGraphic("assets/images/bg2.jpg");
+		bg.loadGraphic("assets/images/board_v03.png");
 		add(bg);
 
-		var fontSize:Int = 50;
+		// bitmap font
+		var textBytes = Assets.getText("assets/bitmapfont/title-font-export.fnt");
+		var XMLData = Xml.parse(textBytes);
+		var titleText:FlxBitmapFont = FlxBitmapFont.fromAngelCode("assets/bitmapfont/title-font-export.png", XMLData);
 
-		var title = new FlxText(0, 1000, FlxG.width, "Slide Numbers Puzzle", 60);
-		title.setFormat("assets/data/LuckiestGuy.ttf", 60, FlxColor.BLACK, "center", FlxTextBorderStyle.SHADOW, FlxColor.WHITE, true);
-		add(title);
+		btTitle = new FlxBitmapText(titleText);
+		btTitle.x = 20;
+		btTitle.y = 940;
+		btTitle.lineSpacing= 5;
+		btTitle.text = "SLIDE NUMBERS\n                    PUZZLE";
+		add(btTitle);
 
-		movesTxt = new FlxText(30, 115, FlxG.width, "Moves: " + Reg.moves, fontSize);
-		movesTxt.setFormat("assets/data/LuckiestGuy.ttf", fontSize, FlxColor.BLACK, "left", FlxTextBorderStyle.SHADOW, FlxColor.WHITE, true);
-		add(movesTxt);
+		// MOVES TEXT
+		btMoves = new FlxBitmapText(titleText);
+		btMoves.x = 20;
+		btMoves.y = 115;
+		btMoves.text = "MOVES " + Reg.moves;
+		add(btMoves);
 
 		// get the previous high Score if exists
 		if(_saveGame.data.highscore != null)
@@ -110,10 +123,12 @@ class PlayState extends FlxState
 			Reg.highScore = _saveGame.data.highscore;
 		}
 
-		highScoreTxt = new FlxText(410, 115, FlxG.width, "Hi Score: " + highScoreInt, fontSize);
-		highScoreTxt.setFormat("assets/data/LuckiestGuy.ttf", fontSize, FlxColor.BLACK, "left", FlxTextBorderStyle.SHADOW, FlxColor.WHITE, true);
-		add(highScoreTxt);
-
+		// SCORE TEXT
+		btScore = new FlxBitmapText(titleText);
+		btScore.x = 450;
+		btScore.y = 80;
+		btScore.text = "HI\nSCORE " + highScoreInt;
+		add(btScore);
 
 		// shuffle the numbers
 		shuffleArray(order);
@@ -121,8 +136,16 @@ class PlayState extends FlxState
 		// create the board
 		createBoard();
 
-		var options = new FlxButton(24, 24, "", options);
+		// Add the tree on top of everything
+		var bgTree:FlxSprite = new FlxSprite(490,870);
+		bgTree.loadGraphic("assets/images/board_tree.png");
+		add(bgTree);
+
+		
+		var options = new FlxButton(0, 0, "", options);
 		options.loadGraphic("assets/images/settings.png");
+		options.setGraphicSize(82, 82);
+		options.setPosition(-100, -160);
 		add(options);
 
 		var mute = new FlxButton(640, -20, "", mute);
@@ -147,8 +170,10 @@ class PlayState extends FlxState
 		// TODO : Check settings to see if the user wants music
 		FlxG.sound.playMusic(Reg.MUSIC,1, true);
 
+		#if mobile
 		// Show admob banner
 		AdMob.showBanner(bannerId);
+		#end
 	}
 
 	public function options():Void
@@ -345,12 +370,6 @@ class PlayState extends FlxState
 	    btn.x = posX;
 	    btn.y = posY;
 
-
-	    // trace("up: " + up );
-	    // trace("right: " + right );
-	    // trace("down: " + down );
-	    // trace("left: " + left );
-
 	    var speed = 0.15;
 
 	    /// NOW WE CAN MOVE THEM
@@ -439,7 +458,7 @@ class PlayState extends FlxState
 	    	// if we didn't win add one to the moves count
 			Reg.moves++;
 			// and update the moves text
-			movesTxt.text = "Moves: " + Reg.moves;
+			btMoves.text = "MOVES " + Reg.moves;
 
 	    }
 	}
