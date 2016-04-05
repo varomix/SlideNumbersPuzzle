@@ -46,6 +46,9 @@ class PlayState extends FlxState
 	public var btMoves:FlxBitmapText;
 	public var btScore:FlxBitmapText;
 
+	public var mute:FlxButton;
+
+	public var OptionsSub:Options;
 
 	// we'll use this to save the high score
 	public var _saveGame:FlxSave;
@@ -142,33 +145,41 @@ class PlayState extends FlxState
 		add(bgTree);
 
 		
-		var options = new FlxButton(0, 0, "", options);
+		var options = new FlxButton(32, 16, "", options);
 		options.loadGraphic("assets/images/settings.png");
-		options.setGraphicSize(82, 82);
-		options.setPosition(-100, -160);
 		add(options);
 
-		var mute = new FlxButton(640, -20, "", mute);
-		mute.loadGraphic("assets/images/mute.png");
-		mute.color = 0x000;
-		mute.setGraphicSize(64, 64);
+		mute = new FlxButton(670, 16, "", muteSound);
+		mute.loadGraphic("assets/images/music_on.png");
 		add(mute);
 
+		
+		// CREATE SUBSTATES
 		// create Instructions Substate
 		var InstrucctionsSub:Instructions = new Instructions();
-		// start music on close
-		InstrucctionsSub.closeCallback = StartMusic;
+		InstrucctionsSub.closeCallback = StartMusic;   // start music on close
 		openSubState(InstrucctionsSub);
 
-		// FlxG.sound.playMusic(Reg.MUSIC,1, true);
+		// Create Options substate
+		OptionsSub = new Options();
+		OptionsSub.closeCallback = StartMusic;   // start music on close
+		OptionsSub.persistentDraw = true;
+
 
 
 	}
 
 	public function StartMusic():Void
 	{
-		// TODO : Check settings to see if the user wants music
-		FlxG.sound.playMusic(Reg.MUSIC,1, true);
+		if(FlxG.sound.music == null)
+		{
+			// TODO : Check settings to see if the user wants music
+			FlxG.sound.playMusic(Reg.MUSIC,1, true);
+		}
+		else
+		{
+			FlxG.sound.music.volume = 1;
+		}
 
 		#if mobile
 		// Show admob banner
@@ -179,20 +190,22 @@ class PlayState extends FlxState
 	public function options():Void
 	{
 		click_snd.play();
-		openSubState( new Options() );
+		FlxG.sound.music.volume = 0;
+		openSubState(OptionsSub);
 	}
 
-	public function mute():Void
+	public function muteSound():Void
 	{
-		if(FlxG.sound.music.playing)
+		if(FlxG.sound.music.volume == 1)
 		{
-			FlxG.sound.music.stop();
+			FlxG.sound.music.volume = 0;
+			mute.loadGraphic("assets/images/music_off.png");
 		}
 		else
 		{
-			FlxG.sound.music.play();
+			FlxG.sound.music.volume = 1;
+			mute.loadGraphic("assets/images/music_on.png");
 		}
-		
 	}
 
 	public function shuffleArray(arr:Array<Int>)

@@ -16,7 +16,7 @@ class Reg
 	public static inline var SND_SUCCESS:String = "assets/sounds/success.ogg";
 
 	// Music
-	public static inline var MUSIC:String = "assets/music/slideMusic.ogg";
+	public static inline var MUSIC:String = "assets/music/chiptune.ogg";
 
 	/**
 	 * Generic levels Array that can be used for cross-state stuff.
