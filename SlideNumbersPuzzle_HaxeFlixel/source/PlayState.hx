@@ -46,7 +46,8 @@ class PlayState extends FlxState
 	public var btMoves:FlxBitmapText;
 	public var btScore:FlxBitmapText;
 
-	public var mute:FlxButton;
+	public static var mute:FlxButton;
+	public static var soundfx:Bool;
 
 	public var OptionsSub:Options;
 
@@ -71,6 +72,9 @@ class PlayState extends FlxState
 		// make it look smooth
 		FlxG.camera.antialiasing = true;
 
+		// TODO: get this from settings
+		soundfx = true;
+
 		#if mobile
 		// admob start
 		AdMob.init();
@@ -82,7 +86,7 @@ class PlayState extends FlxState
 		// reset moves variable
 		Reg.moves = 0;
 
-		// FlxG.camera.fade(FlxColor.BLACK, 1, true);
+		FlxG.camera.fade(FlxColor.BLACK, 1, true);
 
 		click_snd = FlxG.sound.load(Reg.SND_CLICK);
 		move_snd = FlxG.sound.load(Reg.SND_MOVE);
@@ -149,7 +153,7 @@ class PlayState extends FlxState
 		options.loadGraphic("assets/images/settings.png");
 		add(options);
 
-		mute = new FlxButton(670, 16, "", muteSound);
+		mute = new FlxButton(670, 16, "", MuteSound);
 		mute.loadGraphic("assets/images/music_on.png");
 		add(mute);
 
@@ -160,16 +164,9 @@ class PlayState extends FlxState
 		InstrucctionsSub.closeCallback = StartMusic;   // start music on close
 		openSubState(InstrucctionsSub);
 
-		// Create Options substate
-		OptionsSub = new Options();
-		OptionsSub.closeCallback = StartMusic;   // start music on close
-		OptionsSub.persistentDraw = true;
-
-
-
 	}
 
-	public function StartMusic():Void
+	public static function StartMusic():Void
 	{
 		if(FlxG.sound.music == null)
 		{
@@ -190,11 +187,13 @@ class PlayState extends FlxState
 	public function options():Void
 	{
 		click_snd.play();
-		FlxG.sound.music.volume = 0;
-		openSubState(OptionsSub);
+		// FlxG.sound.music.volume = 0;
+
+		openSubState(new Options());
+		// openSubState(OptionsSub);
 	}
 
-	public function muteSound():Void
+	public static function MuteSound():Void
 	{
 		if(FlxG.sound.music.volume == 1)
 		{

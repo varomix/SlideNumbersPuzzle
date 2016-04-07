@@ -14,11 +14,11 @@
 	<!--------------------------------WINDOW SETTINGS------------------------------->
 	
 	<!--These window settings apply to all targets-->
-	<window width="768" height="1280" fps="60" background="#000000" hardware="true" vsync="true" />
+	<window if="mobile" width="768" height="1280" fps="60" background="#000000" hardware="true" vsync="true" />
 	
-	<!--------------------------------TEST SETTING
-	<window width="600" height="1000" fps="60" background="#000000" hardware="true" vsync="true" />
-	------------------------------>
+	------------------------------TEST SETTING
+	<window if="desktop" width="480" height="800" fps="60" background="#000000" hardware="true" vsync="true" />
+	----------------------------
 
 	<!--Web-specific-->
 	<window if="web" orientation="portrait"  />

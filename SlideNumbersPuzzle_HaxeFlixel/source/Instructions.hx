@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.FlxSubState;
@@ -39,18 +40,21 @@ class Instructions extends FlxSubState
 		btTitle.y = 150;
 		add(btTitle);
 
+		var dialog:FlxSprite = new FlxSprite(FlxG.width/2 - 298, 435, "assets/images/dialogBig.png");
+		add(dialog);
+
 		var inst = new FlxText(0, 480, FlxG.width, "Put the numbers\nin order in the least\nmoves possible.\n\nGood luck!!");
 		inst.setFormat("assets/data/LuckiestGuy.ttf", 50, FlxColor.WHITE, FlxTextAlign.CENTER);
 		// inst.screenCenter(true, false);
 		add(inst);
 
 
-		var playBtn = new FlxButton(FlxG.width/2 - 100, 900, "PLAY", function(){ click_snd.play(); close(); } );
-		playBtn.loadGraphic("assets/images/playblock.png");
-		playBtn.label.setFormat("assets/data/LuckiestGuy.ttf", 70, FlxColor.BLACK, FlxTextAlign.CENTER, FlxTextBorderStyle.SHADOW, FlxColor.WHITE, true);
-	    playBtn.labelOffsets[0].y = 20;
-	    playBtn.labelOffsets[1].y = 15;
-	    playBtn.labelOffsets[2].y = 25;
+		var playBtn = new FlxButton(FlxG.width/2 - 235, 900, "PLAY", function(){ click_snd.play(); close(); } );
+		playBtn.loadGraphic("assets/images/button.png");
+		playBtn.label.setFormat("assets/data/LuckiestGuy.ttf", 150, FlxColor.BLACK, FlxTextAlign.CENTER, FlxTextBorderStyle.SHADOW, FlxColor.WHITE, true);
+	    playBtn.labelOffsets[0].y = 30;
+	    playBtn.labelOffsets[1].y = 25;
+	    playBtn.labelOffsets[2].y = 35;
 		add(playBtn);
 
 	}
